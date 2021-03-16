@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block intro %}
+<!-- Features Jobs -->
+<div class="section padding-top-65 padding-bottom-75">
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-12">
+
+				<!-- Section Headline -->
+				<div class="section-headline margin-top-0 margin-bottom-35">
+					<h3>All forms</h3>
+					<a href="jobs-list-layout-full-page-map.html" class="headline-link">Browse All Jobs</a>
+				</div>
+
+				<!-- Jobs Container -->
+				{% set i = 0 %}
+				{% for formulaire in formulaire %}
+					{% set i=i+1 %}
+				<div class="listings-container compact-list-layout margin-top-35">
+					<!-- Job Listing -->
+					<a href="single-job-page.html" class="job-listing with-apply-button">
+
+						<!-- Job Listing Details -->
+						<div class="job-listing-details">
+
+							<!-- Logo -->
+							<div class="job-listing-company-logo">
+								<img src="images/form.png" alt="">
+							</div>
+
+							<!-- Details -->
+							<div class="job-listing-description">
+								<h3 class="job-listing-title">Formulaire {{ i }}</h3>
+
+								<!-- Job Listing Footer -->
+								<div class="job-listing-footer">
+									<ul>
+										<li><i class="icon-material-outline-business"></i> {{formulaire.id }} <div class="verified-badge" title="Verified Employer" data-tippy-placement="top"></div></li>
+										<li><i class="icon-material-outline-location-on"></i> {{ formulaire.nbrQuestion }}</li>
+										<li><i class="icon-material-outline-business-center"></i> {{ formulaire.scoreMin }}</li>
+										<li><i class="icon-material-outline-access-time"></i> {{ formulaire.date ? formulaire.date|date('Y-m-d') : '' }}</li>
+									</ul>
+								</div>
+							</div>
+
+							<!-- Apply Button -->
+							<form action="{{ path('listQuestionsByForms',{'id':formulaire.id }) }}">
+                                <button><span  class="list-apply-button-ADD-FORM">Start Now</span></button>
+                            </form>
+						</div>
+					</a>
+
+					<!-- Job Listing -->
+				</div>
+				<!-- Jobs Container / End -->
+						{% endfor %}
+
+
+				<div class="clearfix"></div>
+				<div class="row">
+					<div class="col-md-12">
+						<!-- Pagination -->
+						<div class="pagination-container margin-top-60 margin-bottom-60">
+							<div class="pagination">
+
+									{{ knp_pagination_render(formulaire) }}
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Pagination / End -->
+
+
+			</div>
+		</div>
+	</div>
+
+<!-- Featured Jobs / End -->
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

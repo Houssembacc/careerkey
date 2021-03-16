@@ -91,17 +91,16 @@
 
                     <!-- Logo -->
                     <div id="logo">
-                        <a href="index.html"><img src="images/logo.png" alt=""></a>
+                        <a href="index.html"><img src="{{ asset('images/logocareerkey.png') }}" alt="logocareerkey"></a>
                     </div>
-
                     <!-- Main Navigation -->
                     <nav id="navigation">
                         <ul id="responsive">
 
                             <li><a href="#" class="current">Home</a>
                                 <ul class="dropdown-nav">
-                                    <li><a href="index.html">Home 1</a></li>
-                                    <li><a href="index-2.html">Home 2</a></li>
+                                    <li><a href="{{ path('formulaire_front') }}"> Entretiens </a></li>
+                                    <li><a href="{{ path('formation_front') }}">Formations</a></li>
                                     <li><a href="index-3.html">Home 3</a></li>
                                 </ul>
                             </li>
@@ -401,7 +400,7 @@
     <!-- Header Container / End -->
 
 
-
+{% block intro %}
     <!-- Intro Banner
     ================================================== -->
     <!-- add class "disable-gradient" to enable consistent background overlay -->
@@ -1354,12 +1353,14 @@
             </div>
         </div>
         <!-- Footer Copyrights / End -->
-
+        {% endblock %}
     </div>
     <!-- Footer / End -->
 
 </div>
+
 <!-- Wrapper / End -->
 {% endblock %}
 </body>
+
 </html>

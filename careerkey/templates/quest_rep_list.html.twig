@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block intro %}
+<!-- Features Jobs -->
+<div class="section padding-top-65 padding-bottom-75">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+
+                <!-- Section Headline -->
+                <div class="section-headline margin-top-0 margin-bottom-35">
+                    <h3>Good Luck</h3>
+                    <a href="jobs-list-layout-full-page-map.html" class="headline-link">Browse All Jobs</a>
+                </div>
+
+                <!-- Jobs Container -->
+                {% set i = 0 %}
+                {% for l in listQuestions %}
+                    {% set listeReponses = l.getReponses() %}
+                        {% set i=i+1 %}
+                    <div class="listings-container compact-list-layout margin-top-35">
+                        <!-- Job Listing -->
+                        <a  class="job-listing with-apply-button">
+
+                            <!-- Job Listing Details -->
+                            <div class="job-listing-details">
+
+                                <!-- Logo -->
+                                <div class="job-listing-company-logo">
+                                    <img src="{{ asset('images/question.png') }}" alt=""> {# image du '?' #}
+                                </div>
+
+                                <!-- Details -->
+                                <div class="job-listing-description">
+                                    <h3 class="job-listing-title">Question {{ i }}</h3>
+
+                                    <!-- Job Listing Footer -->
+
+
+                                        <ul>
+                                            <li><i class="icon-material-outline-business"></i> {{l.description }} {# <div class="verified-badge" title="Verified Employer" data-tippy-placement="top"></div>  #}</li>
+                                            {# les reponses de chaque question #}
+                                            {% for lr in listeReponses %}
+                                            <form>
+                                                <input type="checkbox" name="{{ lr.id }}[]" id="checkboxes-{{lr.id}}" value="{{ lr.id }}" >
+                                                <label for="{{lr.id}}">{{ lr.description }}</label>
+
+
+                                                {% endfor %}
+                                                <form action="path{{ ('values_checkbox') }}" method="get">
+                                                    <button>
+                                                        valider
+                                                    </button>
+                                                </form>
+
+                                                {% endfor %}
+
+                                            </form>
+
+
+
+
+
+                                            {#
+                                            <li><i class="icon-material-outline-location-on"></i> {{ formulaire.nbrQuestion }}</li>
+                                            <li><i class="icon-material-outline-business-center"></i> {{ formulaire.scoreMin }}</li>
+                                            <li><i class="icon-material-outline-access-time"></i> {{ formulaire.date ? formulaire.date|date('Y-m-d') : '' }}</li>
+                                            #}
+                                        </ul>
+
+                                </div>
+                                {#
+                                <!-- Apply Button -->
+                                <form action="{{ path('listQuestionsByForms',{'id':formulaire.id }) }}">
+                                    <button><span  class="list-apply-button-ADD-FORM">Start Now</span></button>
+                                </form>
+                                #}
+                            </div>
+                        </a>
+                        <!-- Job Listing -->
+                    </div>
+                    <!-- Jobs Container / End -->
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Jobs / End -->
+{% endblock %}
+
+
+
+
+
+

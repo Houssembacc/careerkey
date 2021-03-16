@@ -1,0 +1,41 @@
+{% extends 'dashboard.html.twig' %}
+
+
+{% block chart %}
+
+    <canvas id="categories" width="300" height="100"></canvas>
+
+    <script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js')}}" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+    <script>
+        let categories = document.querySelector("#categories")
+        let categGraph = new Chart(categories, {
+            type: "pie",
+            data: {
+                backgroundColor: 'red',
+                labels: {{ categNom|raw }},
+                datasets: [{
+                    label: "Répartition des catégories",
+                    data: {{ categCount|raw }},
+                    backgroundColor: [
+                        'rgba(255,162,235)',
+                        'rgba(75,192,192)',
+                        'rgba(255,99,132)',
+                    ]
+
+                }]
+            }
+        })
+
+    </script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

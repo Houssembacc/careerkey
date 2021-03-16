@@ -2507,10 +2507,9 @@ em.mm-counter+a.mm-fullsubopen+span {
 /* Pagination
 ------------------------------------- */
 .pagination {
-	margin: 0;
+	margin: 20px;
 	text-align: center;
 }
-
 .pagination-next-prev {
 	position: relative;
 	top: -66px;
@@ -4673,9 +4672,9 @@ span.blog-item-tag {
 	padding-right: 35px;
 }
 
-.list-apply-button {
+.list-apply-button-ADD-FORM {
 	position: absolute;
-    right: 0;
+    right: 0cm;
     padding: 10px 20px;
     line-height: 24px;
     position: relative;
@@ -4685,10 +4684,58 @@ span.blog-item-tag {
     transition: all 0.3s;
     border-radius: 4px;
     background: #f0f0f0;
-    color: #666;
+    color: darkblue;
     text-align: center;
-}
 
+}
+.list-apply-button-filter {
+	position: absolute;
+	right: 0cm;
+	padding: 10px 20px;
+	line-height: 24px;
+	position: relative;
+	font-size: 16px;
+	font-weight: 500;
+	display: inline-block;
+	transition: all 0.3s;
+	border-radius: 4px;
+	background: #f0f0f0;
+	color: sandybrown;
+	text-align: center;
+
+}
+.list-apply-button-ADD-FORM:hover {
+	background-color: #66676b;
+	color: #fff;
+	box-shadow: 0 4px 12px rgba(102,103,107,0.15);
+}
+.back_add{
+	margin-left: 800px;
+    
+}
+.tableau {
+	font-size: medium;
+	color: #a0a0a0;
+	text-align: center;
+	width: 800px;
+	alignment: center;
+	border-style: wave;
+	color: #313131;
+	border-spacing: 200px;
+}
+.my-custom-class-for-widgets{
+	width: 250px;
+	margin-left: 300px;
+
+}
+.my-custom-class-for-labels{
+	color: #3b5998;
+	margin-left: 300px;
+}
+.my-custom-class-for-errors{
+	color:darkred;
+	margin-left: 300px;
+}
 .job-listing.with-apply-button:hover .list-apply-button {
     background-color: #66676b;
     color: #fff;
