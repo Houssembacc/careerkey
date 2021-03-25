@@ -10,18 +10,18 @@
 
         <!-- Jobs Container -->
         <div class="row">
-            <form action="{{ path('formation_front') }}">
+            <form action="{{ path('formation_front',{'id1':user.id}) }}">
                 <button style="" class="list-apply-button-ADD-FORM"><i class="fas fa-clock"></i>
                     All
                 </button>
             </form>
-            <form action="{{ path('formationByExpiredDateFront') }}">
+            <form action="{{ path('formationByExpiredDateFront',{'id1':user.id}) }}">
         <button style="" class="list-apply-button-ADD-FORM"><i class="fas fa-clock"></i>
             Expired Formations
         </button>
     </form>
             </form>
-            <form action="{{ path('formationByAvailableDateFront') }}">
+            <form action="{{ path('formationByAvailableDateFront',{'id1':user.id}) }}">
                 <button style="" class="list-apply-button-ADD-FORM"><i class="fas fa-clock"></i>
                     Available Formations
                 </button>
@@ -37,7 +37,7 @@
     <div class="tasks-list-container compact-list margin-top-35 margin-left-35 ">
 
         <!-- Task -->
-        <a href="single-task-page.html" class="task-listing">
+        <div class="task-listing">
 
             <!-- Job Listing Details -->
             <div class="task-listing-details">
@@ -69,21 +69,42 @@
                         <strong>Free</strong>
 
                     </div>
-                    <form>
+
                         {% if formation.etat == "non disponible" %}
                         <span style="background-color: red" class="button button-sliding-icon ripple-effect">
-                            <button >Expired</button> <i class="icon-material-outline-arrow-right-alt"></i>
+                            <button disabled >Expired</button> <i class="icon-material-outline-arrow-right-alt"></i>
                         </span>
                             {% else %}
+                                <form action="{{ path('contact',{'id':formation.id , 'id1':user.id}) }}">
                                 <span class="button button-sliding-icon ripple-effect">
-                            <button >Participate Now</button><i class="icon-material-outline-arrow-right-alt"></i>
-                        </span>
+                                    <button onclick="myFunction()" >Participate Now</button><i class="icon-material-outline-arrow-right-alt"></i>
+                                </span>
+                                </form>
                         {% endif %}
 
-                    </form>
                 </div>
             </div>
-        </a>
+    {% endfor %}
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Pagination -->
+            <div class="pagination-container margin-top-60 margin-bottom-60">
+                <div class="pagination">
+
+                    {{ knp_pagination_render(formation) }}
+
+                </div>
+            </div>
+            <script>
+                function myFunction() {
+                    alert("An email has been sent !");
+                }
+
+            </script>
+        </div>
+    </div>
+        </div>
 
         <!-- Task -->
 
@@ -93,23 +114,17 @@
 
             <!-- Job Listing Details -->
 
-        </a>
+    </div>
 
     </div>
-    {% endfor %}
+
     <!-- Tasks Container / End -->
 
             </div>
         </div>
     </div>
 
-    <div class="pagination-container margin-top-60 margin-bottom-60">
-        <div class="pagination">
 
-            {{ knp_pagination_render(formation) }}
-
-        </div>
-    </div>
     </div>
     <!-- Featured Jobs / End -->
 

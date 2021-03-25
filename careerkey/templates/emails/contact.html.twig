@@ -1,0 +1,11 @@
+
+<h1> Votre Participation est faite avec succés </h1>
+<p> On vous remercie pour votre participation , voici en details votre participation :</p>
+<div style="background-color: #5eb5e0">
+<p>Votre ID formation : {{ formation.id }}</p>
+<p>Nom de votre formation : {{ formation.nomFormation }} de Catégorie : {{ formation.categorie.nomCategorie }}</p>
+
+<p>commence le  : {{ formation.datedeb ? formation.datedeb|date('Y-m-d') : '' }}</p>
+<p>se términe le  : {{ formation.datefin ? formation.datefin|date('Y-m-d') : '' }}</p>
+
+</div>

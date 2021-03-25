@@ -1,0 +1,179 @@
+{% extends 'dashboard.html.twig' %}
+
+
+{% block contain2 %}
+
+    <div class="section gray margin-top-45 padding-top-65 padding-bottom-75">
+        <div class="container">
+            <form class="back_add"  action="{{ path('dashboard_index')}}" >
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+                <button class="list-apply-button-ADD-FORM"><i class="fas fa-backspace"></i>  Back to Home</button>
+            </form>
+
+            <form  action="{{ path('formation_new')}}" >
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+                <button class="list-apply-button-ADD-FORM"><i class="fas fa-plus-circle"></i>Nouvelle Formation </button>
+            </form>
+            <div class="row">
+
+                <div class="col-xl-12">
+                    <h2 align="center">Liste des Formations</h2>
+                    <!-- Section Headline -->
+
+                    <!-- Jobs Container -->
+                    <strong>Filter By :</strong>
+                    <div class="row">
+                        <form action="{{ path('formationByIdASC') }}">
+                            <button class="list-apply-button-ADD-FORM"><i class="fas fa-sort-numeric-up-alt"></i>
+                                ID
+                            </button>
+                        </form>
+                        <form action="{{ path('formationByName') }}">
+                            <button class="list-apply-button-ADD-FORM"><i class="fas fa-sort-alpha-up-alt"></i>
+                                Name
+                            </button>
+                        </form>
+                        <form action="{{ path('formationByExpiredDate') }}">
+                            <button style="" class="list-apply-button-ADD-FORM"><i class="fas fa-clock"></i>
+                                Expired Date
+                            </button>
+                        </form>
+                        {# for filter buttons #}
+
+                    </div>
+                    <!-- Jobs Container / End -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form method="post" action="">
+                                <div class="intro-banner-search-form margin-top-95">
+                                    <!-- Search Field -->
+
+                                    <div class="intro-search-field">
+                                        <label for ="intro-keywords" class="field-title ripple-effect">Search with ..?</label>
+                                        <input name="chercher" id="search" type="text" placeholder="Enter a description ...">
+                                    </div>
+                                    <!-- Button -->
+                                    <div class="intro-search-button">
+                                        <button class="button ripple-effect">Search</button>
+                                    </div>
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <table class="basic-table" id="t">
+
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom_formation</th>
+                            <th>Datedeb</th>
+                            <th>Datefin</th>
+                            <th>Etat</th>
+                            <th>Catégorie</th>
+                        </tr>
+
+                        <tbody id="all">
+                        {% for formation in formation %}
+                            <tr>
+                                <td>{{ formation.id }}</td>
+                                <td>{{ formation.nomFormation }}</td>
+                                <td>{{ formation.datedeb ? formation.datedeb|date('Y-m-d') : '' }}</td>
+                                <td>{{ formation.datefin ? formation.datefin|date('Y-m-d') : '' }}</td>
+                                <td>{{ formation.etat }}</td>
+                                <td>{{ formation.categorie.nomCategorie }}</td>
+                                <td><form action="{{ path('formation_edit',{'id':formation.id}) }}">
+                                        <button class="list-apply-button-ADD-FORM"><i class="fas fa-pen-alt"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>{{ include('formation/_delete_form.html.twig') }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                        <tbody id="search">
+                            <tr>
+                                <td>no records found</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Pagination -->
+                    <div class="pagination-container margin-top-60 margin-bottom-60">
+                        <div class="pagination">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+    <script>
+        $( document ).ready(function() {
+            $('#search').keyup(function(e){
+                /* La variable value va prendre la valeur insérer dans le champ de texte
+                afin d’effectuer la recherche */
+                var value = $(this).val();
+                var minlength = 1;
+                if( $(this).val().length === 0 ) {
+                             $( '#t tbody#all' ).show();
+                         }
+                /* Ajax est lancé lors du remplissage du champ texte dont l’id est
+                « search » pour faire la recherche */
+                $.ajax({
+                    /* l’url est une chaine de caractères contenant l’adresse où la requête est
+                    envoyée */
+                    url : "{{ path('searchFormationtx') }}",
+                    /* La méthode utilisée pour transférer les données est GET */
+                    type : 'GET',
+                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la
+                    zone de recherche et sera placée après l’url */
+                    data: {
+                        'searchValue' : value
+                    },
+
+                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le
+                    nouveau contenu*/
+
+                    success : function(retour){
+                        if(retour){
+                            $('#t tbody#search').empty();
+                            $.each(JSON.parse(retour), function(i, obj) {
+                                $('#t tbody#all').hide();
+                                $('#t tbody#search').append('<tr><td>'+obj.id+'</td><td>'+obj.nom_formation+'</td><td>'+obj.datedeb+'</td><td>'+obj.datefin+'</td><td>'+obj.etat+'</td> </tr>');
+                            });
+                        }
+                        else
+                        {
+                            $('#t tbody#all').hide();
+                            $('#t tbody#search').show();
+                            $('#t tbody#search').fadeIn('fast');
+                        }
+                    },
+
+                });
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
+
+

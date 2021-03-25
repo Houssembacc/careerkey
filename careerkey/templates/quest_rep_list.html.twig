@@ -17,8 +17,8 @@
 
                 <!-- Jobs Container -->
                 {% set i = 0 %}
-                {% for l in listQuestions %}
-                    {% set listeReponses = l.getReponses() %}
+
+                    {% set listeReponses = Q.getReponses() %}
                         {% set i=i+1 %}
                     <div class="listings-container compact-list-layout margin-top-35">
                         <!-- Job Listing -->
@@ -40,22 +40,19 @@
 
 
                                         <ul>
-                                            <li><i class="icon-material-outline-business"></i> {{l.description }} {# <div class="verified-badge" title="Verified Employer" data-tippy-placement="top"></div>  #}</li>
+                                            <li><i class="icon-material-outline-business"></i> {{Q.description }} {# <div class="verified-badge" title="Verified Employer" data-tippy-placement="top"></div>  #}</li>
                                             {# les reponses de chaque question #}
                                             {% for lr in listeReponses %}
                                             <form>
-                                                <input type="checkbox" name="{{ lr.id }}[]" id="checkboxes-{{lr.id}}" value="{{ lr.id }}" >
+                                                <input type="checkbox" name="{{ lr.id }}[]" id="checkboxes-{{lr.id}}" value="{{ lr.description }}" >
                                                 <label for="{{lr.id}}">{{ lr.description }}</label>
 
-
                                                 {% endfor %}
-                                                <form action="path{{ ('values_checkbox') }}" method="get">
+                                                <form action="{{ path('listQuestionsByForms',{'id':idform ,'idq':idq } ) }}" method="get">
                                                     <button>
-                                                        valider
+                                                        Next
                                                     </button>
                                                 </form>
-
-                                                {% endfor %}
 
                                             </form>
 

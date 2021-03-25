@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block intro %}
+
+    <div class="section gray margin-top-10 padding-top-65 padding-bottom-10">
+        <div class="container">
+            <div class="col-xl-12">
+                <strong>Filter By :</strong>
+                <!-- Section Headline -->
+
+                <!-- Jobs Container -->
+                <div class="row">
+                    <form action="{{ path('formation_front') }}">
+                        <button style="" class="list-apply-button-ADD-FORM"><i class="fas fa-clock"></i>
+                            All
+                        </button>
+                    </form>
+                    <form action="{{ path('formationByExpiredDateFront',{'id1':user.id}) }}">
+                        <button style="" class="list-apply-button-ADD-FORM"><i class="fas fa-clock"></i>
+                            Expired Formations
+                        </button>
+                    </form>
+                    </form>
+                    <form action="{{ path('formationByAvailableDateFront',{'id1':user.id}) }}">
+                        <button style="" class="list-apply-button-ADD-FORM"><i class="fas fa-clock"></i>
+                            Available Formations
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tasks Container -->
+    {% set i = 0 %}
+
+    {% for formation in formation %}
+        {% set j=0 %}
+        {% set i=i+1 %}
+        <div class="tasks-list-container compact-list margin-top-35 margin-left-35 ">
+
+            <!-- Task -->
+            <div class="task-listing">
+
+                <!-- Job Listing Details -->
+                <div class="task-listing-details">
+
+                    <!-- Details -->
+                    <div class="task-listing-description">
+                        <h3 class="task-listing-title">{{ formation.nomFormation }}</h3>
+                        <ul class="task-icons">
+                            <li><i class="icon-material-outline-location-on"></i> {{ formation.datedeb ? formation.datedeb|date('Y-m-d') : '' }}</li>
+                            <li><i class="icon-material-outline-access-time"></i> {{ formation.datefin ? formation.datefin|date('Y-m-d') : '' }}</li>
+                        </ul>
+
+                        <div class="task-tags">
+                            <span>{{ formation.categorie.nomCategorie }}</span>
+                            {% if formation.etat == "non disponible" %}
+                                <span style="color: darkred ;  text-decoration: line-through;">{{ formation.etat }}</span>
+                            {% else %}
+                                <span  style="color: green;">{{ formation.etat }}</span>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="task-listing-bid">
+                    <div class="task-listing-bid-inner">
+                        <div class="task-offers">
+                            <strong>Free</strong>
+
+                        </div>
+
+                        {% if formation.etat == "non disponible" %}
+                            <span style="background-color: red" class="button button-sliding-icon ripple-effect">
+                            <button >Expired</button> <i class="icon-material-outline-arrow-right-alt"></i>
+                        </span>
+                        {% else %}
+                            {% set x = 0 %}
+                            {% for p in participations %}
+
+                                {% if (formation.id == p.formation.id) and (user.id == p.user.id ) and (x==0) %}
+                                    {% set j=1 %}
+                                        {% if j == 1 %}
+                                            <form action="{{ path('annuler_participation',{'id':p.id , 'id1':user.id}) }}">
+                                    <span class="button button-sliding-icon ripple-effect">
+                                        <button >Annuler</button><i class="icon-material-outline-arrow-right-alt"></i>
+                                    </span>
+                                </form>
+                                        {% endif %}
+                                    {% else %}
+                                        {% set j=-1 %}
+                                        <form action="{{ path('contact',{'id':formation.id , 'id1':user.id}) }}">
+                                    <span class="button button-sliding-icon ripple-effect">
+                                        <button onclick="myFunction()" >Participate Now</button><i class="icon-material-outline-arrow-right-alt"></i>
+                                    </span>
+                                        </form>
+                                   {% endif %}
+
+                            {% endfor %}
+                            {% if j == 0 %}
+                                <form action="{{ path('contact',{'id':formation.id , 'id1':user.id}) }}">
+                                    <span class="button button-sliding-icon ripple-effect">
+                                        <button >Participate Now</button><i class="icon-material-outline-arrow-right-alt"></i>
+                                    </span>
+                                </form>
+                            {% endif %}
+
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task -->
+
+            <!-- Task -->
+
+            <!-- Task -->
+
+            <!-- Job Listing Details -->
+
+        </div>
+
+        </div>
+
+ {% endfor %}
+    <!-- Tasks Container / End -->
+
+    </div>
+    </div>
+    </div>
+
+    <div class="pagination-container margin-top-60 margin-bottom-60">
+        <div class="pagination">
+
+            {# {{ knp_pagination_render(formation) }}  #}
+
+        </div>
+    </div>
+    </div>
+
+        <script>
+        function myFunction() {
+            alert("An email has been sent !");
+        }
+
+    </script>
+    <!-- Featured Jobs / End -->
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

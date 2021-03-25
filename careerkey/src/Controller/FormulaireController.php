@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Question;
 use App\Form\HoussemType;
 use App\Form\TestType;
 use App\Controller\HoussemController;
@@ -9,6 +10,7 @@ use App\Entity\Formulaire;
 use App\Form\FormulaireType;
 use App\Repository\FormulaireRepository;
 use App\Repository\ReponsesRepository;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -185,12 +187,11 @@ class FormulaireController extends Controller
             ]);
         }
     /**
-     * @Route ("/{id}/listQuestionsByForms" , name="listQuestionsByForms")
+     * @Route ("/{id}/{idq}/listQuestionsByForms" , name="listQuestionsByForms")
      */
-    function listQuestionsByForm(Request $request,QuestionRepository $questionRepository,FormulaireRepository $formulaireRepository,$id)
+    function listQuestionsByForm($idq , Request $request,QuestionRepository $questionRepository,FormulaireRepository $formulaireRepository,$id)
     {
         //recuperer Questions selon formulaire
-        $forms = $formulaireRepository->find($id);
         /*
         $viewParams = ['quiz' => $forms];
 
@@ -201,7 +202,7 @@ class FormulaireController extends Controller
 
         */
         //dd($forms); afficher le contenu de formulaire
-        $question = $questionRepository->listQuestionsByForm($forms->getId());
+        //$question = $questionRepository->listQuestionsByForm($forms->getId());
         //dd($question);
 
 
@@ -211,21 +212,21 @@ class FormulaireController extends Controller
         $next = 0;
 
 
-        foreach ($question as $q) {
+        /*
+        $quest = $questionRepository->find(32);
 
             //tableau qui va stocker les reponses de chaque question
-            $techChoices = array();
+                $techChoices = array();
             // liste des réponses de la question concerné
-
-
-            $listerep = $q->getReponses();
+            $listerep = $quest->getReponses();
 
             foreach ($listerep as $r) {
                 $techChoices[$r->getDescription()] = $r->getDescription();
             }
+
             $from = $this->createFormBuilder()
                 ->add('Reponse', ChoiceType::class, [
-                    'label' => $q->getDescription(),
+                    'label' => $quest->getDescription(),
                     'choices' => $techChoices,
                     'expanded' => true,
                     'multiple' => false,
@@ -239,17 +240,80 @@ class FormulaireController extends Controller
             if($from->isSubmitted() && $from->isValid()){
                 $data = $from->getData();
 
-                //dd($data);
+                $verif_n =$quest->getId() + 1; // passer à la question suivante
+
+                if($verif_n != 0){
+                    $quest = $questionRepository->find($verif_n);
+                    $listerep1 = $quest->getReponses();
+
+                    foreach ($listerep1 as $r) {
+                        $techChoices[$r->getDescription()] = $r->getDescription();
+                    }
+                    $from = $this->createFormBuilder()
+                        ->add('Reponse', ChoiceType::class, [
+                            'label' => $quest->getDescription(),
+                            'choices' => $techChoices,
+                            'expanded' => true,
+                            'multiple' => false,
+
+                        ])
+                        ->getForm();
+                    $from->add('valider' ,SubmitType::class);
+                    $from->handleRequest($request);
+
+                }
+
+
 
 
             }
-            return $this->render('houssem/index.html.twig', [
-                'f' => $from->createView(),
-
-            ]);
+        */
 
 
+        if($idq == 0){
+
+
+            $Question = $questionRepository->listQuestionsByForm($id); // liste des questions du form de $id ...
+
+            foreach($Question as $q){
+                $idq = $q->getId()+1;
+
+                return $this->render('quest_rep_list.html.twig', [
+                    'idform' => $id,
+                    'idq' =>$idq, // nouveau id de question suivante
+                    'Q' => $q,
+                ]);
+            }
+
+                //$idq = $Question->getId();
+
+            //dd($idq);
+
+            }
+
+
+            //dd($idq);
+        if($idq != 0){
+            $Question = $questionRepository->find($idq);
+
+                return $this->render('quest_rep_list.html.twig', [
+                    'idform' => $id,
+                    'idq' => $idq,
+                    'Q' => $Question,
+                ]);
         }
+
+
+
+
+
+        // je vaus récupérer une question première question ..
+
+
+
+
+
+
 
 
     }
